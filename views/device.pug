@@ -1,0 +1,57 @@
+extends layout
+block content
+    div.row
+        button#Toggle-form
+            i.fa.fa-align-justify
+        div#Form.col-sm-3(style="display:none")
+            h1 FORM
+            table(class="table table-hover")
+                tbody
+                    tr.row
+                        td.col-sm-4(class="form-label") DeviceID:
+                        td.col-sm-8
+                            input#DeviceID.form-input(name="DeviceID")
+                    tr.row
+                        td.col-sm-4.form-label Status:
+                        td.col-sm-8
+                            input#Status.form-input(name="Status")
+                    tr.row
+                        td.col-sm-4.form-label CalibrateFunction:
+                        td.col-sm-8
+                            input#CalibrateFunction.form-input(name="CalibrateFunction")
+                    tr.row
+                        td.col-sm-4.form-label QualityFlag:
+                        td.col-sm-8
+                            input#QualityFlag.form-input(name="QualityFlag")
+                    tr.row
+                        td.col-sm-4.form-label CalibrateDate:
+                        td.col-sm-8
+                            input#CalibrateDate.form-input(name="CalibrateDate")
+            hr
+            div.form-group.form-button
+                button#ADD(class="btn btn-primary" onclick="javascript:uploadData()") ADD
+                button#Search(class="btn btn-secondary" onclick="javascript:searchData()") SEARCH
+            hr
+            div.form-group.form-button
+                button#Previous(class="btn btn-dark" onclick="javascript:previous()") <<<
+                button#Next(class="btn btn-dark" onclick="javascript:next()") >>>
+
+        div#Data.col
+            h1 DATA
+            table.table
+                thead
+                    tr.d-flex.col-md-12.row
+                        th.col-md-2 Tên thiết bị
+                        th.col-md-2 Trạng thái
+                        th.col-md-2 Hàm hiệu chỉnh
+                        th.col-md-2 Level hiệu chỉnh
+                        th.col-md-2 Mã chủng loại
+                        th.col-md-2 Thao tác
+                tbody#Data-row
+    script.
+        var deviceData = !{JSON.stringify(deviceData)};
+    script(src="/javascript/device.js")
+
+
+
+
