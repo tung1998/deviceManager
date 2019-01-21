@@ -14,8 +14,15 @@ router.get('/:id', function(req, res, next) {
     db = res.app.locals.db;
     db.collection('fairkit').find({}).limit(20).skip((page-1)*20).toArray((err,result)=>{
       if(err) throw err;
-      // console.log(result);
-      res.render('fairkit',{fairkitData:result});
+      let firstData = {
+        fairkitData: result
+      }
+      db.collection('category').find({}).project({CategoryID: 1}).toArray((err,result)=>{
+        if(err) throw err;
+        console.log(firstData);
+        firstData.categoryID = result;
+        res.render('fairkit',{firstData:firstData});
+      })
     })
   }
 });
@@ -78,5 +85,36 @@ router.post("/edit", (req, res, next) => {
     res.end();
   });
 })
+
+
+router.post("/getDeviceData", (req, res, next) => {
+  let data = req.body;
+  db = res.app.locals.db;
+  db.collection("device").find({CategoryID: data.categoryID}).project({Name: 1}).toArray((err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+
+router.post("/addDevice", (req, res, next) => {
+  let data = req.body;
+  console.log(req.body);
+  db = res.app.locals.db;
+  db.collection("fairkit").updateOne({_id: ObjectID(data.id)},{$push:{ListDevice:{deviceId:data.deviceId}}},(err, result) => {
+    if (err) throw err;
+    res.end();
+  });
+})
+
+router.post("/removeDevice", (req, res, next) => {
+  let data = req.body;
+  console.log(data);
+  db = res.app.locals.db;
+  db.collection("fairkit").updateOne({_id: ObjectID(data.id)},{$pull:{ListDevice:{deviceId:data.deviceId}}},(err, result) => {
+    if (err) throw err;
+    res.end();
+  });
+})
+
 
 module.exports = router;

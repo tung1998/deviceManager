@@ -3,7 +3,7 @@ block content
     div.row
         button#Toggle-form
             i.fa.fa-align-justify
-        div#Form.col-sm-3(style="display:none")
+        div#Form.col-sm-3
             h1 FORM
             table(class="table table-hover")
                 tbody
@@ -11,10 +11,6 @@ block content
                         td.col-sm-4(class="form-label") FAirKitID:
                         td.col-sm-8
                             input#FAirKitID.form-input(name="FAirKitID")
-                    tr.row
-                        td.col-sm-4.form-label ListDevice:
-                        td.col-sm-8
-                            input#ListDevice.form-input(name="ListDevice")
                     tr.row
                         td.col-sm-4.form-label Status:
                         td.col-sm-8
@@ -33,13 +29,30 @@ block content
             table.table
                 thead
                     tr.d-flex.col-md-12.row
-                        th.col-md-3 FAirKitID
-                        th.col-md-3 ListDevice
+                        th.col-md-2 FAirKitID
                         th.col-md-3 Status
+                        th.col-md-4 ListDevice
                         th.col-md-3 Action
                 tbody#Data-row
+        #myModal.modal
+            .modal-dialog
+                .modal-content
+                    // Modal Header
+                    .modal-header
+                        h4.modal-title Modal Heading
+                        button.close(type='button' data-dismiss='modal') &times;
+                    // Modal body
+                    .modal-body
+                        select(name="categoryID" class="modal-select" id="modal-categoryID")
+                            option(selected)  categoryID
+                        select(name="deviceID" class="modal-select" id="modal-DeviceID")
+                            option(selected) deviceID
+                    .modal-footer
+                        button.btn.btn-primary(type='button' onclick="javascript:addDevice()") ADD
+                        button.btn.btn-danger(type='button' data-dismiss='modal') Close
+
     script.
-        var fairkitData = !{JSON.stringify(fairkitData)};
+        var firstData = !{JSON.stringify(firstData)};
     script(src="/javascript/fairkit.js")
 
 

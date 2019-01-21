@@ -25,8 +25,6 @@ $(() => {
             deleteClick($(parent),id)
         }else if($(e.currentTarget).hasClass("ok-button")){
             okClick($(parent),id);
-        }else if($(e.currentTarget).hasClass("add-button")){
-            addClick($(parent),id);
         }else {
             cancelClick($(parent),id);
         }
@@ -119,12 +117,10 @@ function renderCategoryData(item) {
     $("#Data-row").append(`<tr class="d-flex col-md-12 row" idCategory="${item._id}">
                                 <td class="col-md-1 data data-categoryID"><input disabled value="${item.CategoryID}"></td>
                                 <td class="col-md-2 data data-name"><input disabled value="${item.Name}"></td>
-                                <td class="col-md-2 data data-description"><input disabled value="${item.Description}"></td>
+                                <td class="col-md-3 data data-description"><input disabled value="${item.Description}"></td>
                                 <td class="col-md-2 data data-fAirNetID"><input disabled value="${item.FAirNetID}"></td>
                                 <td class="col-md-2 data data-dataSheet"><input disabled value="${item.DataSheet}"></td>
-                                <td class="col-md-1 data data-amount"><input disabled value="${item.list.length}"></td>
                                 <td class="col-md-2">
-                                   <button class="btn btn-dark add-button"><i class="fa fa-plus"></i></button>
                                    <button class="btn btn-primary edit-button"><i class="fa fa-edit"></i></button>
                                    <button class="btn btn-danger delete-button"><i class="fa fa-trash"></i></button>
                                    <button class="btn btn-success ok-button" style="display: none"><i class="fa fa-check-circle"></i></button>
@@ -134,23 +130,25 @@ function renderCategoryData(item) {
 
 
 
-function addClick(product,id) {
-    let category = categoryData[searchIndex(categoryData,id)];
-    let newObj = {Code:category.CategoryID+" "+(category.list.length+1),onUsing: false}
-    category.list.push(newObj)
 
-    $.ajax({
-        type: 'post',
-        url: '/category/addMore',
-        data: JSON.stringify({_id: id,newValue: newObj}),
-        contentType: "application/json",
-        success: function () {
-            product.find(".data-amount>input").val(parseInt(product.find(".data-amount>input").val())+1);
-            alert("delete success"+id)
-        }
-    })
-}
 
+// function addClick(product,id) {
+//     let category = categoryData[searchIndex(categoryData,id)];
+//     let newObj = {Code:category.CategoryID+" "+(category.list.length+1),onUsing: false}
+//     category.list.push(newObj)
+//
+//     $.ajax({
+//         type: 'post',
+//         url: '/category/addMore',
+//         data: JSON.stringify({_id: id,newValue: newObj}),
+//         contentType: "application/json",
+//         success: function () {
+//             product.find(".data-amount>input").val(parseInt(product.find(".data-amount>input").val())+1);
+//             alert("delete success"+id)
+//         }
+//     })
+// }
+//
 
 
 

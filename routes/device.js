@@ -14,8 +14,14 @@ router.get('/:id', function(req, res, next) {
     db = res.app.locals.db;
     db.collection('device').find({}).limit(20).skip((page-1)*20).toArray((err,result)=>{
       if(err) throw err;
-      // console.log(result);
-      res.render('device',{deviceData:result});
+      let data={
+        deviceData : result
+      };
+      db.collection("category").find({},{projection:{'Name':1}}).toArray((err, result) => {
+        if (err) throw err;
+        data.categoryNamelist = result;
+        res.render('device',{data:data});
+      });
     })
   }
 });
@@ -80,5 +86,15 @@ router.post("/edit", (req, res, next) => {
     res.end();
   });
 })
+
+
+// router.post("/getCategoryID", (req, res, next) => {
+//   db = res.app.locals.db;
+//   db.collection("category").find({},{projection:{'CategoryID':1}}).toArray((err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// })
+
 
 module.exports = router;
