@@ -4,6 +4,12 @@ let editData = {};
 
 let CategoryNameList = data.categoryNamelist;
 let deviceData = data.deviceData;
+
+let addCalibrateFunctionData = {
+    DeviceID:"",
+    data:{}
+};
+
 $(() => {
     // console.log(deviceData);
 
@@ -18,6 +24,17 @@ $(() => {
 
     renderSelect($("#CategoryName"))
 
+
+    $(document).on("click",".delete-button",(e)=>{
+        let parent = e.currentTarget.parentElement.parentElement;
+
+        addCalibrateFunctionData.data.CalibrateFunction=$(parent).find(".data-CalibrateFunction").text();
+        addCalibrateFunctionData.data.QualityFlag=$(parent).find(".data-QualityFlag").text();
+        addCalibrateFunctionData.data.CalibrateDate=$(parent).find(".data-CalibrateDate").text();
+        console.log(addCalibrateFunctionData);
+        $(parent).remove();
+        deleteCalibrateFunctionItem(addCalibrateFunctionData);
+    })
 
     $("button.btn").click((e)=>{
         let parent = e.currentTarget.parentElement.parentElement;
@@ -106,6 +123,7 @@ function getData() {
     formData.Name = $("#Name").val();
     formData.Status = $("#Status").val();
     formData.CategoryName = $("#CategoryName").val();
+    formData.CalibrateList = [];
 }
 
 function checkData() {
@@ -205,7 +223,22 @@ function cancelClick(product,id) {
 }
 
 function addClick(product,id) {
-    console.log(id)
+    addCalibrateFunctionData.DeviceID=id;
+    $("#Calibrate-data").empty();
+    for(let i=0;i<deviceData.length;i++){
+        if(deviceData[i]._id==id){
+            $("#modal-title").text(`${deviceData[i].Name}`);
+            deviceData[i].CalibrateList.forEach((item)=>{
+                $("#Calibrate-data").append(`<tr class="d-flex col-md-12 row" idDevice="${item._id}">
+                                <td class="col-md-7 data data-CalibrateFunction" >${item.CalibrateFunction}</td>
+                                <td class="col-md-2 data data-QualityFlag" >${item.QualityFlag}</td>
+                                <td class="col-md-2 data data-CalibrateDate" >${item.CalibrateDate}</td>
+                                <td class="col-md-1" >
+                                <button class="btn btn-dark delete-button" ><i class="fa fa-close"></i></button>
+                                </td></tr>`)
+            })
+        }
+    }
 }
 
 
@@ -233,6 +266,42 @@ function editProduct() {
         contentType: "application/json",
         success: function () {
             alert("edit success"+editData._id)
+        }
+    })
+}
+
+
+
+function addCalibrateFunction() {
+    addCalibrateFunctionData.data.CalibrateFunction=$("#modal-CalibrateFunction").val();
+    addCalibrateFunctionData.data.QualityFlag=$("#modal-QualityFlag").val();
+    addCalibrateFunctionData.data.CalibrateDate=$("#modal-CalibrateDate").val();
+    $.ajax({
+        type: 'post',
+        url: '/device/addCalibrateFunction',
+        data: JSON.stringify(addCalibrateFunctionData),
+        contentType: "application/json",
+        success: function () {
+            $("#Calibrate-data").append(`<tr class="d-flex col-md-12 row" idDevice="${item._id}">
+                                <td class="col-md-7" >${$("#modal-CalibrateFunction").val()}</td>
+                                <td class="col-md-2" >${$("#modal-QualityFlag").val()}</td>
+                                <td class="col-md-2" >${$("#modal-CalibrateDate").val()}</td>
+                                <td class="col-md-1" >
+                                <button class="btn btn-dark delete-button" ><i class="fa fa-close"></i></button>
+                                </td></tr>`)
+        }
+    })
+}
+
+
+function deleteCalibrateFunctionItem(data) {
+    $.ajax({
+        type: 'post',
+        url: '/device/deleteCalibrateFunction',
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function () {
+            alert("success")
         }
     })
 }

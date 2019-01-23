@@ -38,6 +38,30 @@ block content
                         th.col-md-3 Tên chủng loại
                         th.col-md-3 Thao tác
                 tbody#Data-row
+    #myModal.modal
+        .modal-dialog.modal-lg
+            .modal-content
+                // Modal Header
+                .modal-header
+                    h4#modal-title.modal-title
+                    button.close(type='button' data-dismiss='modal') &times;
+                // Modal body
+                .modal-body
+                    table.table
+                        thead
+                            tr.d-flex.col-md-12.row
+                                th.col-md-7 Hàm hiệu chỉnh
+                                th.col-md-2 Level hiệu chỉnh
+                                th.col-md-2 Date
+                                th.col-md-1
+                        tbody#Calibrate-data
+                    div.row
+                        input.col-7(name="CalibrateFunction" class="modal-input" id="modal-CalibrateFunction" placeholder="CalibrateFunction")
+                        input.col-1(name="QualityFlag" class="modal-input" id="modal-QualityFlag" placeholder="QualityFlag")
+                        input.col-2(name="CalibrateDate" class="modal-input" id="modal-CalibrateDate" placeholder="CalibrateDate")
+                        button.col-1.btn.btn-primary(type='button' onclick="javascript:addCalibrateFunction()") ADD
+                .modal-footer
+                    button.btn.btn-danger(type='button' data-dismiss='modal') Close
     script.
         var data = !{JSON.stringify(data)};
     script(src="/javascript/device.js")

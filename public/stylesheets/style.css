@@ -67,3 +67,6 @@ width: 50%;
 .listDeviceItem button{
  padding-right: 0px;
 }
+.modal-input{
+  margin: 10px;
+}

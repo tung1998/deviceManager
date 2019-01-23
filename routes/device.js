@@ -97,4 +97,24 @@ router.post("/edit", (req, res, next) => {
 // })
 
 
+router.post("/addCalibrateFunction", (req, res, next) => {
+  let data = req.body;
+  db = res.app.locals.db;
+  console.log(data);
+  db.collection("device").updateOne({_id: ObjectID(data.DeviceID)},{$push:{CalibrateList:data.data}},(err, result) => {
+    if (err) throw err;
+    res.end();
+  });
+})
+router.post("/deleteCalibrateFunction", (req, res, next) => {
+  let data = req.body;
+  db = res.app.locals.db;
+  console.log(data);
+  db.collection("device").updateOne({_id: ObjectID(data.DeviceID)},{$pull:{CalibrateList:data.data}},(err, result) => {
+    if (err) throw err;
+    res.end();
+  });
+})
+
+
 module.exports = router;
